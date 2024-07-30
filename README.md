@@ -1,5 +1,9 @@
 # dsa
-repository for my DSA code wahah !!
+<div align="center">
+   <h3>repository for my DSA code wahah !!</h3>
+   <p>feel free to steal or whatever haha</p>
+   <img src="./etc/lol-spongebob.gif" width="500">
+</div>
 
 <hr />
 
