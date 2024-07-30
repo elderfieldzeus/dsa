@@ -3,6 +3,12 @@ repository for my DSA code wahah !!
 
 <hr />
 
+# Table of Contents
+- [Pre-Midterm Topics](#pre-midterm-topics)
+- [Midterm Topics](#midterm-topics)
+- [Pre-Final Topics](#pre-final-topics)
+- [Final Topics](#final-topics)
+
 # Coverage
 
 ## Pre-Midterm Topics
