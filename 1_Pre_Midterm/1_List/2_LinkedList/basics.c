@@ -20,6 +20,8 @@ void delete(LinkedList *List, int data);
 bool member(LinkedList List, int data);
 int locate(LinkedList List, int data);
 
+void freeAll(LinkedList List);
+
 int main() {
     LinkedList List;
 
@@ -40,6 +42,8 @@ int main() {
     printf("%s\n", member(List, 1) ? "TRUE" : "FALSE");
 
     printf("%d\n", locate(List, 1));
+
+    freeAll(List);
 
     return 0;
 }
@@ -118,4 +122,13 @@ int locate(LinkedList List, int data) {
     for(curr = List; curr != NULL && curr->elem.data != data; curr = curr->next, index++) {}
 
     return (curr == NULL) ? -1 : index;
+}
+
+void freeAll(LinkedList List) {
+    LinkedList temp;
+    while(List != NULL) {
+        temp = List;
+        List = temp->next;
+        free(temp);
+    }
 }
