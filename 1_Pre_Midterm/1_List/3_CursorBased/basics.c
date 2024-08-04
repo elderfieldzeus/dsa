@@ -101,7 +101,6 @@ void insertLast(List *L, VHeap *V, int data) {
         if(avail != -1) {
             V->VHNode[avail].elem.data = data;
             V->VHNode[avail].next = -1;
-
             
             *curr = avail;
         }
@@ -142,18 +141,18 @@ void initVH(VHeap *V) {
     V->avail = 0;
 
     for(int i = 0; i < VHSIZE; i++) {
-        V->VHNode[i].next = i + 1;
+        V->VHNode[i].next = i + 1; //set all default nexts to the next address
     }
 
-    V->VHNode[VHSIZE - 1].next = -1;
+    V->VHNode[VHSIZE - 1].next = -1; //set last address' next to -1
 }
 
 int mallocVH(VHeap *V) {
-    int temp = -1;
+    int temp = -1; //default temp is -1 for error in memory allocation
 
     if(V->avail != -1) {
-        temp = V->avail;
-        V->avail = V->VHNode[temp].next;
+        temp = V->avail; //temp gets the current available address to be returned
+        V->avail = V->VHNode[temp].next; //avail gets the next available address after it is assigned to temp
     }
 
     return temp;
@@ -161,8 +160,8 @@ int mallocVH(VHeap *V) {
 
 void freeVH(VHeap *V, int index) {
     if(index != -1) {
-        V->VHNode[index].next = V->avail;
-        V->avail = index;
+        V->VHNode[index].next = V->avail; //the address next gets the current available address
+        V->avail = index; //the index to be freed becomes the new current available address
     }
 }
 
