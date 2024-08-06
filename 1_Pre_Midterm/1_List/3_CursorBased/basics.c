@@ -159,7 +159,7 @@ int mallocVH(VHeap *V) {
 }
 
 void freeVH(VHeap *V, int index) {
-    if(index != -1) {
+    if(index > 0 && index < VHSIZE) {
         V->VHNode[index].next = V->avail; //the address next gets the current available address
         V->avail = index; //the index to be freed becomes the new current available address
     }
