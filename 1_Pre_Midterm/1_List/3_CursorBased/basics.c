@@ -43,7 +43,7 @@ int main() {
     printf("\033[H\033[J");
 
     initVH(&V);
-    readNexts(V); //debug
+    // readNexts(V); //debug
 
     init(&L);
     read(L, V);

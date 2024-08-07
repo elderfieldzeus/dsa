@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define VHSIZE 0XA
+#define VHSIZE 10
 
 typedef struct {
     int data;
@@ -17,103 +17,107 @@ typedef struct {
     int avail;
 } VHeap;
 
-typedef int Stack;
+typedef int Queue;
 
-// Top, Pop, Push, and other utility functions such as initStack, isEmpty, and isFull
-void init(Stack *S);
-void read(Stack S, VHeap V);
-bool isEmpty(Stack S);
+
+void init(Queue *Q);
+void read(Queue Q, VHeap V);
+bool isEmpty(Queue Q);
 bool isFull(VHeap V);
-Element top(Stack S, VHeap V);
-void pop(Stack *S, VHeap *V);
-void push(Stack *S, VHeap *V, int data);
+Element front(Queue Q, VHeap V);
+void dequeue(Queue *Q, VHeap *V);
+void enqueue(Queue *Q, VHeap *V, int data);
 
+
+//CB General Functions
 void initVH(VHeap *V);
 int mallocVH(VHeap *V);
 void freeVH(VHeap *V, int index);
 
 void readNexts(VHeap V);
 
+
 int main() {
     VHeap V;
-    Stack S;
+    Queue Q;
 
     printf("\033[H\033[J");
 
     initVH(&V);
     // readNexts(V);
 
-    init(&S);
-    read(S, V);
+    init(&Q);
+    read(Q, V);
 
-    push(&S, &V, 1);
-    read(S, V);
+    enqueue(&Q, &V, 1);
+    read(Q, V);
 
-    push(&S, &V, 2);
-    push(&S, &V, 3);
-    read(S, V);
+    enqueue(&Q, &V, 2);
+    enqueue(&Q, &V, 3);
+    enqueue(&Q, &V, 4);
+    read(Q, V);
 
-    Element temp = top(S, V);
-    printf("Top: %d\n", temp.data);
+    dequeue(&Q, &V);
+    read(Q, V);
 
-    pop(&S, &V);
-    read(S, V);
+    Element temp = front(Q, V);
+    printf("Front: %d\n", temp.data);
+
+    dequeue(&Q, &V);
+    dequeue(&Q, &V);
+    dequeue(&Q, &V);
+    read(Q, V);
+
+
 
     return 0;
 }
 
-void init(Stack *S) {
-    *S = -1;
+
+void init(Queue *Q) {
+    *Q = -1;
 }
 
-void read(Stack S, VHeap V) {
-    printf("Stack: ");
-    for(int i = S; i != -1; i = V.VHNode[i].next) {
+void read(Queue Q, VHeap V) {
+    printf("Queue: ");
+    for(int i = Q; i != -1; i = V.VHNode[i].next) {
         printf("%d%s", V.VHNode[i].elem.data, (V.VHNode[i].next != -1) ? ", " : ".\n");
     }
-    if(S == -1) {
+    if(Q == -1) {
         printf("EMPTY\n");
     }
 }
 
-bool isEmpty(Stack S) {
-    return (S == -1) ? true : false;
+bool isEmpty(Queue Q) {
+    return (Q == -1) ? true : false;
 }
 
 bool isFull(VHeap V) {
     return (V.avail == -1) ? true : false;
 }
 
-Element top(Stack S, VHeap V) {
-    Element top = {-1};
+Element front(Queue Q, VHeap V) {
+    Element temp = {-1};
 
-    if(!isEmpty(S)) {
-        int i;
-        for(i = S; V.VHNode[i].next != -1; i = V.VHNode[i].next) {}
-        top = V.VHNode[i].elem;
-    }
+    if(!isEmpty(Q)) {
+        temp = V.VHNode[Q].elem;
+    } 
 
-    return top;
+    return temp;
 }
 
-void pop(Stack *S, VHeap *V) {
-    if(!isEmpty(*S)) {
-        int *trav;
-
-        for(trav = S; V->VHNode[*trav].next != -1; trav = &V->VHNode[*trav].next) {}
-        
-        int temp = *trav;
-        *trav = -1;
-        freeVH(V, *trav);
+void dequeue(Queue *Q, VHeap *V) {
+    if(!isEmpty(*Q)) {
+        int temp = *Q;
+        *Q = V->VHNode[temp].next;
+        freeVH(V, temp);
     }
 }
 
-void push(Stack *S, VHeap *V, int data) {
+void enqueue(Queue *Q, VHeap *V, int data) {
     if(!isFull(*V)) {
         int *trav;
-
-        for(trav = S; *trav != -1; trav = &V->VHNode[*trav].next) {}
-
+        for(trav = Q; *trav != -1; trav = &V->VHNode[*trav].next) {}
         int temp = mallocVH(V);
         if(temp != -1) {
             V->VHNode[temp].elem.data = data;
@@ -124,7 +128,8 @@ void push(Stack *S, VHeap *V, int data) {
 }
 
 
-//general functions
+//CB General Functions
+
 void initVH(VHeap *V) {
     V->avail = 0;
 
@@ -134,7 +139,6 @@ void initVH(VHeap *V) {
 
     V->VHNode[VHSIZE - 1].next = -1;
 }
-
 
 int mallocVH(VHeap *V) {
     int temp = -1;
