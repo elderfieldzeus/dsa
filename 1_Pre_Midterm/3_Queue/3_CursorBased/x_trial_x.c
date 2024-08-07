@@ -17,12 +17,7 @@ typedef struct {
     int avail;
 } VHeap;
 
-typedef int List;
-
-typedef struct {
-    List front;
-    List rear;
-} Queue;
+typedef int Queue;
 
 
 void init(Queue *Q);
@@ -78,22 +73,21 @@ int main() {
 
 
 void init(Queue *Q) {
-    Q->front = -1;
-    Q->rear = -1;
+    *Q = -1;
 }
 
 void read(Queue Q, VHeap V) {
     printf("Queue: ");
-    for(int i = Q.front; i != -1; i = V.VHNode[i].next) {
+    for(int i = Q; i != -1; i = V.VHNode[i].next) {
         printf("%d%s", V.VHNode[i].elem.data, (V.VHNode[i].next != -1) ? ", " : ".\n");
     }
-    if(isEmpty(Q)) {
+    if(Q == -1) {
         printf("EMPTY\n");
     }
 }
 
 bool isEmpty(Queue Q) {
-    return (Q.front == -1) ? true : false;
+    return (Q == -1) ? true : false;
 }
 
 bool isFull(VHeap V) {
@@ -104,7 +98,7 @@ Element front(Queue Q, VHeap V) {
     Element temp = {-1};
 
     if(!isEmpty(Q)) {
-        temp = V.VHNode[Q.front].elem;
+        temp = V.VHNode[Q].elem;
     } 
 
     return temp;
@@ -112,31 +106,21 @@ Element front(Queue Q, VHeap V) {
 
 void dequeue(Queue *Q, VHeap *V) {
     if(!isEmpty(*Q)) {
-        int temp = Q->front;
-        Q->front = V->VHNode[temp].next;
+        int temp = *Q;
+        *Q = V->VHNode[temp].next;
         freeVH(V, temp);
-
-        if(isEmpty(*Q)) {
-            Q->rear = Q->front;
-        }
     }
 }
 
 void enqueue(Queue *Q, VHeap *V, int data) {
     if(!isFull(*V)) {
+        int *trav;
+        for(trav = Q; *trav != -1; trav = &V->VHNode[*trav].next) {}
         int temp = mallocVH(V);
         if(temp != -1) {
             V->VHNode[temp].elem.data = data;
             V->VHNode[temp].next = -1;
-
-            if(isEmpty(*Q)) {
-                Q->front = temp;
-            }
-            else {
-                V->VHNode[Q->rear].next = temp;
-            }
-
-            Q->rear = temp;
+            *trav = temp;
         }
     }
 }
