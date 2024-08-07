@@ -12,100 +12,112 @@ typedef struct node {
     struct node *next;
 } *LinkedList;
 
-void init(LinkedList *Queue);
-void read(LinkedList Queue);
-bool isEmpty(LinkedList Queue);
-bool isFull(LinkedList Queue);
-Element front(LinkedList Queue);
-void dequeue(LinkedList *Queue);
-void enqueue(LinkedList *Queue, int data);
+typedef struct {
+    LinkedList front;
+    LinkedList rear;
+    int count; // only used for isFull() function to avoid traversing, can be removed !
+} Queue;
+
+// Front, Dequeue, Enqueue, and other utility functions such as initQueue, isEmpty, and isFull
+void init(Queue *Q);
+void read(Queue Q);
+bool isEmpty(Queue Q);
+bool isFull(Queue Q); // i dont think this is necessary for linked list
+Element front(Queue Q);
+void dequeue(Queue *Q);
+void enqueue(Queue *Q, int data);
 
 int main() {
-    LinkedList Queue;
+    Queue Q;
 
     printf("\033[H\033[J");
 
-    init(&Queue);
-    read(Queue);
+    init(&Q);
+    read(Q);
 
-    enqueue(&Queue, 1);
-    read(Queue);
+    enqueue(&Q, 1);
+    read(Q);
 
-    enqueue(&Queue, 2);
-    enqueue(&Queue, 3);
-    enqueue(&Queue, 4);
-    read(Queue);
+    enqueue(&Q, 2);
+    enqueue(&Q, 3);
+    enqueue(&Q, 4);
+    read(Q);
 
-    dequeue(&Queue);
-    read(Queue);
+    dequeue(&Q);
+    read(Q);
 
-    Element temp = front(Queue);
+    Element temp = front(Q);
     printf("Front: %d\n", temp.data);
 
-    dequeue(&Queue);
-    dequeue(&Queue);
-    dequeue(&Queue);
-    read(Queue);
+    dequeue(&Q);
+    dequeue(&Q);
+    dequeue(&Q);
+    read(Q);
 
     return 0;
 }
 
-void init(LinkedList *Queue) {
-    *Queue = NULL;
+void init(Queue *Q) {
+    Q->front = NULL;
+    Q->rear = NULL;
+    Q->count = 0;
 }
 
-void read(LinkedList Queue) {
+void read(Queue Q) {
     printf("Queue: ");
-    for(LinkedList curr = Queue; curr != NULL; curr = curr->next) {
+    for(LinkedList curr = Q.front; curr != NULL; curr = curr->next) {
         printf("%d%s", curr->elem.data, (curr->next != NULL) ? ", " : ".\n");
     }
-
-    if(Queue == NULL) {
+    if(isEmpty(Q)) {
         printf("EMPTY\n");
     }
 }
 
-bool isEmpty(LinkedList Queue) {
-    return Queue == NULL ? true : false;
+bool isEmpty(Queue Q) {
+    return (Q.front == NULL) ? true : false;
 }
 
-bool isFull(LinkedList Queue) {
-    int i = 0;
-
-    for(LinkedList curr = Queue; curr != NULL; curr = curr->next, i++) {}
-
-    return (i == MAX) ? true : false;
+bool isFull(Queue Q) {
+    //the other way of doing it without count is to traverse and count each element. but since traversing is not allowed, i decided a count was better (just for this). 
+     return (Q.count == MAX) ? true : false;
 }
 
-Element front(LinkedList Queue) {
+Element front(Queue Q) {
     Element temp = {-1};
 
-    if(!isEmpty(Queue)) {
-        temp = Queue->elem;
+    if(!isEmpty(Q)) {
+        temp = Q.front->elem;
     }
 
     return temp;
 }
 
-void dequeue(LinkedList *Queue) {
-    if(!isEmpty(*Queue)) {
-        LinkedList temp = *Queue;
-        *Queue = (*Queue)->next;
+void dequeue(Queue *Q) {
+    if(!isEmpty(*Q)) {
+        LinkedList temp = Q->front;
+        Q->front = Q->front->next;
+        if(isEmpty(*Q)) {
+            Q->rear = Q->front;
+        }
         free(temp);
-    }
+    } 
 }
 
-void enqueue(LinkedList *Queue, int data) {
-    if(!isFull(*Queue)) {
-        LinkedList *trav, temp;
-
-        for(trav = Queue; (*trav) != NULL; trav = &(*trav)->next) {}
-        
-        temp = (LinkedList)malloc(sizeof(struct node));
+void enqueue(Queue *Q, int data) {
+    if(!isFull(*Q)) { //can remove if there is no max given
+        LinkedList temp = (LinkedList) malloc(sizeof(struct node));
         if(temp != NULL) {
             temp->elem.data = data;
             temp->next = NULL;
-            *trav = temp;
+            
+            if(isEmpty(*Q)) {
+                Q->front = temp;
+            }
+            else {
+                Q->rear->next = temp;
+            }
+
+            Q->rear = temp;
         }
     }
 }
