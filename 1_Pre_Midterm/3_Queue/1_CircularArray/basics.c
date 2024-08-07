@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define MAX 10 //number of elements that can be stored in the queue. MAX + 1 is the actual size of the circular array
+#define NUM_OF_ELEMENTS 10 //number of elements that can be stored in the queue. 
+#define MAX NUM_OF_ELEMENTS + 1 //number of elements + 1 is the actual size of the circular array
 
 typedef struct {
     int data;
 } Element;
 
 typedef struct {
-    Element Elements[MAX + 1]; //one cell is sacrificed to identify if empty or full
+    Element Elements[MAX]; //one cell is sacrificed to identify if empty or full
     int front;
     int rear;
 } Circular;
@@ -54,15 +55,15 @@ int main() {
 
 void init(Circular *Queue) {
     Queue->front = 0;
-    Queue->rear = MAX;
+    Queue->rear = MAX - 1;
 }
 
 void read(Circular Queue) {
     printf("Queue: ");
 
     if(!isEmpty(Queue)) {
-        int afterRear = (Queue.rear + 1) % (MAX + 1); //this is my way of doing it since i do not know the standard way of doing it yet
-        for(int i = Queue.front; i != afterRear; i = ((i + 1) % (MAX + 1))) {
+        int afterRear = (Queue.rear + 1) % (MAX); //this is my way of doing it since i do not know the standard way of doing it yet
+        for(int i = Queue.front; i != afterRear; i = ((i + 1) % (MAX))) {
             printf("%d%s", Queue.Elements[i].data, (i !=  Queue.rear) ? ", " : ".\n");
         }
     }
@@ -72,11 +73,11 @@ void read(Circular Queue) {
 }
 
 bool isEmpty(Circular Queue) {
-    return ((Queue.rear + 1) % (MAX + 1) == Queue.front) ? true : false;
+    return ((Queue.rear + 1) % (MAX) == Queue.front) ? true : false;
 }
 
 bool isFull(Circular Queue) {
-    return ((Queue.rear + 2) % (MAX + 1) == Queue.front) ? true : false;
+    return ((Queue.rear + 2) % (MAX) == Queue.front) ? true : false;
 }
 
 Element front(Circular Queue) {
@@ -91,13 +92,13 @@ Element front(Circular Queue) {
 
 void dequeue(Circular *Queue) {
     if(!isEmpty(*Queue)) {
-        Queue->front = (Queue->front + 1) % (MAX + 1); 
+        Queue->front = (Queue->front + 1) % (MAX); 
     }
 }
 
 void enqueue(Circular *Queue, int data) {
     if(!isFull(*Queue)) {
-        Queue->rear = (Queue->rear + 1) % (MAX + 1);
+        Queue->rear = (Queue->rear + 1) % (MAX);
         Queue->Elements[Queue->rear].data = data;
     }
 }
