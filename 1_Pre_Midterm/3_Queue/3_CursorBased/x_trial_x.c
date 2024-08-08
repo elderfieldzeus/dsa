@@ -1,3 +1,12 @@
+/*
+
+    THIS IS MY FIRST ATTEMPT AT QUEUE BASED ON MY KNOWLEDGE ON HOW A QUEUE SHOULD WORK
+    NOTE: I THINK THIS IS WRONG BECAUSE IM NOT SUPPOSED TO TRAVERSE THE QUEUE LIKE A NORMAL CB LIST
+    E.G. (isFull(), enqueue())...
+    I mean it still works, just wrong implementation...
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
