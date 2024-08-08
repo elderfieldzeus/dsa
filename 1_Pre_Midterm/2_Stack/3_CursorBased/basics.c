@@ -89,36 +89,27 @@ Element top(Stack S, VHeap V) {
 
     if(!isEmpty(S)) {
         int i;
-        for(i = S; V.VHNode[i].next != -1; i = V.VHNode[i].next) {}
-        top = V.VHNode[i].elem;
+        top = V.VHNode[S].elem;
     }
 
     return top;
 }
 
 void pop(Stack *S, VHeap *V) {
-    if(!isEmpty(*S)) {
-        int *trav;
-
-        for(trav = S; V->VHNode[*trav].next != -1; trav = &V->VHNode[*trav].next) {}
-        
-        int temp = *trav;
-        *trav = -1;
-        freeVH(V, *trav);
+    if(!isEmpty(*S)) {        
+        int temp = *S;
+        *S = V->VHNode[temp].next;
+        freeVH(V, temp);
     }
 }
 
 void push(Stack *S, VHeap *V, int data) {
     if(!isFull(*V)) {
-        int *trav;
-
-        for(trav = S; *trav != -1; trav = &V->VHNode[*trav].next) {}
-
         int temp = mallocVH(V);
         if(temp != -1) {
             V->VHNode[temp].elem.data = data;
-            V->VHNode[temp].next = -1;
-            *trav = temp;
+            V->VHNode[temp].next = *S;
+            *S = temp;
         }
     }
 }

@@ -1,3 +1,13 @@
+/*
+
+    THIS IS MY FIRST ATTEMPT AT STACK BASED ON MY KNOWLEDGE ON HOW A STACK SHOULD WORK
+    NOTE: I THINK THIS IS WRONG BECAUSE IM NOT SUPPOSED TO TRAVERSE THE STACK LIKE A NORMAL LINKED LIST
+    E.G. (isFull(), pop(), push())...
+    I mean it still works, just wrong implementation...
+
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -78,26 +88,37 @@ bool isFull(LinkedList Stack) {
 }
 
 Element top(LinkedList Stack) {
+    LinkedList curr;
     Element d = {-1};
 
-    return (isEmpty(Stack)) ? d : Stack->elem;
+    for(curr = Stack; curr->next != NULL; curr = curr->next) {}
+
+    return (isEmpty(Stack)) ? d : curr->elem;
 }
 
 void pop(LinkedList *Stack) {
     if(!isEmpty(*Stack)) {
-        LinkedList temp = (*Stack);
-        (*Stack) = temp->next;
+        LinkedList *trav, temp;
+
+        for(trav = Stack; (*trav)->next != NULL; trav = &(*trav)->next) {}
+
+        temp = (*trav);
+        (*trav) = NULL;
         free(temp);
     }
 }
 
 void push(LinkedList *Stack, int data) {
     if(!isFull(*Stack)) {
+        LinkedList *trav;
+
+        for(trav = Stack; (*trav) != NULL; trav = &(*trav)->next) {}
+
         LinkedList temp = (LinkedList)malloc(sizeof(struct node));
         if(temp != NULL) {
             temp->elem.data = data;
-            temp->next = *Stack;
-            (*Stack) = temp;
+            temp->next = NULL;
+            (*trav) = temp;
         }
     }
 }
