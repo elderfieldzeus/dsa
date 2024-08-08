@@ -12,6 +12,7 @@
 - [Midterm Topics](#midterm-topics)
 - [Pre-Final Topics](#pre-final-topics)
 - [Final Topics](#final-topics)
+- [References](#references)
 
 # Coverage
 
@@ -125,3 +126,8 @@
     -  Shortest Paths: Dijkstra's Floyd's, and Warshall's Algorithms
     -  Traversals: Depth First Search (DFS) and Breadth First Search (BFS)
     -  Minimum Cost Spanning Tree: Prim's and Kruskal's Algorithms
+
+
+## References
+- Mme. Christine Pena
+- Seth Demeterio
