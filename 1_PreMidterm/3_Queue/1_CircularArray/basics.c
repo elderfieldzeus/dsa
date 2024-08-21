@@ -61,14 +61,15 @@ void init(Circular *Queue) {
 void read(Circular Queue) {
     printf("Queue: ");
 
-    if(!isEmpty(Queue)) {
-        int afterRear = (Queue.rear + 1) % (MAX); //this is my way of doing it since i do not know the standard way of doing it yet
-        for(int i = Queue.front; i != afterRear; i = ((i + 1) % (MAX))) {
-            printf("%d%s", Queue.Elements[i].data, (i !=  Queue.rear) ? ", " : ".\n");
-        }
-    }
-    else {
+    if(isEmpty(Queue)) {
         printf("EMPTY\n");
+    }
+
+    while(!isEmpty(Queue)) {
+        Element F = front(Queue);
+        printf("%d", F.data);
+        dequeue(&Queue);
+        printf("%s", (!isEmpty(Queue)) ? ", " : ".\n");
     }
 }
 

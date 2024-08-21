@@ -52,11 +52,15 @@ void init(Stack *Stack) {
 
 void read(Stack S) {
     printf("Stack: ");
-    for(int i = S.top; i >= 0; i--) {
-        printf("%d%s", S.Elements[i].data, (i !=  0) ? ", " : ".\n");
-    }
     if(isEmpty(S)) {
         printf("EMPTY\n");
+    }
+
+    while(!isEmpty(S)) {
+        Element T = top(S);
+        printf("%d", T.data);
+        pop(&S);
+        printf("%s", (!isEmpty(S)) ? ", " : ".\n");
     }
 }
 
