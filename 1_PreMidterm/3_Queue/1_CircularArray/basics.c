@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #define NUM_OF_ELEMENTS 10 //number of elements that can be stored in the queue. 
-#define MAX NUM_OF_ELEMENTS + 1 //number of elements + 1 is the actual size of the circular array
+#define MAX (NUM_OF_ELEMENTS + 1) //number of elements + 1 is the actual size of the circular array
 
 typedef struct {
     int data;
