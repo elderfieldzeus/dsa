@@ -140,18 +140,17 @@ int locate(List L, VHeap V, int data) {
 void initVH(VHeap *V) {
     V->avail = 0;
 
-    for(int i = 0; i < VHSIZE; i++) {
-        V->VHNode[i].next = i + 1; //set all default nexts to the next address
+    for(int i = 1; i < VHSIZE; i++) {
+        V->VHNode[i - 1].next = i; //set all default nexts to the next address
     }
 
     V->VHNode[VHSIZE - 1].next = -1; //set last address' next to -1
 }
 
 int mallocVH(VHeap *V) {
-    int temp = -1; //default temp is -1 for error in memory allocation
+    int temp = V->avail; //temp gets the current available address to be returned
 
-    if(V->avail != -1) {
-        temp = V->avail; //temp gets the current available address to be returned
+    if(temp != -1) {
         V->avail = V->VHNode[temp].next; //avail gets the next available address after it is assigned to temp
     }
 
@@ -159,7 +158,7 @@ int mallocVH(VHeap *V) {
 }
 
 void freeVH(VHeap *V, int index) {
-    if(index > 0 && index < VHSIZE) {
+    if(index >= 0 && index < VHSIZE) {
         V->VHNode[index].next = V->avail; //the address next gets the current available address
         V->avail = index; //the index to be freed becomes the new current available address
     }

@@ -119,29 +119,27 @@ void push(Stack *S, VHeap *V, int data) {
 void initVH(VHeap *V) {
     V->avail = 0;
 
-    for(int i = 0; i < VHSIZE; i++) {
-        V->VHNode[i].next = i + 1;
+    for(int i = 1; i < VHSIZE; i++) {
+        V->VHNode[i - 1].next = i; //set all default nexts to the next address
     }
 
-    V->VHNode[VHSIZE - 1].next = -1;
+    V->VHNode[VHSIZE - 1].next = -1; //set last address' next to -1
 }
 
-
 int mallocVH(VHeap *V) {
-    int temp = -1;
+    int temp = V->avail; //temp gets the current available address to be returned
 
-    if(V->avail != -1) {
-        temp = V->avail;
-        V->avail = V->VHNode[temp].next;
+    if(temp != -1) {
+        V->avail = V->VHNode[temp].next; //avail gets the next available address after it is assigned to temp
     }
 
     return temp;
 }
 
 void freeVH(VHeap *V, int index) {
-    if(index > 0 && index < VHSIZE) {
-        V->VHNode[index].next = V->avail;
-        V->avail = index;
+    if(index >= 0 && index < VHSIZE) {
+        V->VHNode[index].next = V->avail; //the address next gets the current available address
+        V->avail = index; //the index to be freed becomes the new current available address
     }
 }
 
