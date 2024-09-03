@@ -81,30 +81,25 @@ void read(List L, VHeap V) {
 }
 
 void insertFirst(List *L, VHeap *V, int data) {
-    if(V->avail != -1) {
-        int avail = mallocVH(V);
-        if(avail != -1) {
-            V->VHNode[avail].elem.data = data;
-            V->VHNode[avail].next = *L;
-            *L = avail;
-        }
+    int avail = mallocVH(V);
+    if(avail != -1) {
+        V->VHNode[avail].elem.data = data;
+        V->VHNode[avail].next = *L;
+        *L = avail;
     }
 }
 
 void insertLast(List *L, VHeap *V, int data) {
-    if(V->avail != -1) {
+    int avail = mallocVH(V);
+    if(avail != -1) {
         int *curr;
 
         for(curr = L; (*curr) != -1; curr = &(V->VHNode[*curr].next)) {}
-
-        int avail = mallocVH(V);
-        if(avail != -1) {
-            V->VHNode[avail].elem.data = data;
-            V->VHNode[avail].next = -1;
+        
+        V->VHNode[avail].elem.data = data;
+        V->VHNode[avail].next = -1;
             
-            *curr = avail;
-        }
-
+        *curr = avail;
     }
 }
 
