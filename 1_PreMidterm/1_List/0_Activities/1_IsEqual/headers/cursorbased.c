@@ -12,7 +12,7 @@ boolean isEqualNotSorted(VHeap V, List A, List B) {
         }
     }
 
-    return (*trav == -1 && B == -1) ? TRUE : FALSE;
+    return (A == -1 && B == -1) ? TRUE : FALSE;
 }
 
 boolean isEqualSorted(VHeap V, List A, List B) {
