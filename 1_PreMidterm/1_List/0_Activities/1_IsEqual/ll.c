@@ -4,7 +4,7 @@ int main() {
     printf("\033[H\033[J");
 
     int arr1[] = {5, 4, 6, 7, 8};
-    int arr2[] = {4, 5, 6 ,7, 8};
+    int arr2[] = {4, 5, 6 ,7, 7};
 
     List A, B;
 
