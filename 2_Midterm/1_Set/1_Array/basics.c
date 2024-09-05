@@ -81,12 +81,7 @@ void printSet(Set S) {
 }
 
 Set Union(Set A, Set B) {
-    Set S = {{}, A.size};
-
-    //copy A
-    for (int i = 0; i < A.size; i++) {
-        S.set[i] = A.set[i];
-    }
+    Set S = A;
 
     //add elements in B but not in A
     for (int i = 0; i < B.size; i++) {
