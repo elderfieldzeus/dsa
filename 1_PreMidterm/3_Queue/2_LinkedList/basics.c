@@ -20,7 +20,7 @@ typedef struct {
 
 // Front, Dequeue, Enqueue, and other utility functions such as initQueue, isEmpty, and isFull
 void init(Queue *Q);
-void read(Queue Q);
+void read(Queue *Q);
 bool isEmpty(Queue Q);
 bool isFull(Queue Q); // i dont think this is necessary for linked list
 Element front(Queue Q);
@@ -33,18 +33,18 @@ int main() {
     printf("\033[H\033[J");
 
     init(&Q);
-    read(Q);
+    read(&Q);
 
     enqueue(&Q, 1);
-    read(Q);
+    read(&Q);
 
     enqueue(&Q, 2);
     enqueue(&Q, 3);
     enqueue(&Q, 4);
-    read(Q);
+    read(&Q);
 
     dequeue(&Q);
-    read(Q);
+    read(&Q);
 
     Element temp = front(Q);
     printf("Front: %d\n", temp.data);
@@ -52,7 +52,7 @@ int main() {
     dequeue(&Q);
     dequeue(&Q);
     dequeue(&Q);
-    read(Q);
+    read(&Q);
 
     return 0;
 }
@@ -63,13 +63,25 @@ void init(Queue *Q) {
     Q->count = 0;
 }
 
-void read(Queue Q) {
+void read(Queue *Q) {
     printf("Queue: ");
-    for(LinkedList curr = Q.front; curr != NULL; curr = curr->next) {
-        printf("%d%s", curr->elem.data, (curr->next != NULL) ? ", " : ".\n");
-    }
-    if(isEmpty(Q)) {
+
+    if(isEmpty(*Q)) {
         printf("EMPTY\n");
+    }
+    else {
+        Queue temp;
+        init(&temp);
+        
+        while(!isEmpty(*Q)) {
+            Element elem = front(*Q);
+            printf("%d ", elem.data);
+            dequeue(Q);
+            enqueue(&temp, elem.data);
+        }
+        printf("\n");
+
+        *Q = temp;
     }
 }
 

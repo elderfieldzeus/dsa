@@ -84,12 +84,17 @@ void init(Queue *Q) {
 
 void read(Queue Q, VHeap V) {
     printf("Queue: ");
-    for(int i = Q.front; i != -1; i = V.VHNode[i].next) {
-        printf("%d%s", V.VHNode[i].elem.data, (V.VHNode[i].next != -1) ? ", " : ".\n");
-    }
+
     if(isEmpty(Q)) {
-        printf("EMPTY\n");
+        printf("EMPTY");
     }
+    
+    while(!isEmpty(Q)) {
+        Element elem = front(Q, V);
+        printf("%d ", elem.data);
+        dequeue(&Q, &V);
+    }
+    printf("\n");
 }
 
 bool isEmpty(Queue Q) {
