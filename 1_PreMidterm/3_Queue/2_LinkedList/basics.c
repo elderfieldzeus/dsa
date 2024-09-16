@@ -97,7 +97,7 @@ void dequeue(Queue *Q) {
         LinkedList temp = Q->front;
         Q->front = Q->front->next;
         if(isEmpty(*Q)) {
-            Q->rear = Q->front;
+            Q->rear = NULL;
         }
         free(temp);
     } 

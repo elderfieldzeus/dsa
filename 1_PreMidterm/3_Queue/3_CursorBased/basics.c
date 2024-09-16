@@ -117,7 +117,7 @@ void dequeue(Queue *Q, VHeap *V) {
         freeVH(V, temp);
 
         if(isEmpty(*Q)) {
-            Q->rear = Q->front;
+            Q->rear = -1;
         }
     }
 }
