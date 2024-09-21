@@ -113,15 +113,16 @@ Set Intersection(Set A, Set B) {
     Set I = NULL;
 
     for(Set currA = A; currA != NULL; currA = currA->next) {
-        for(Set currB = B; currB != NULL; currB = currB->next) {
-            if(currA->data == currB->data) {
-                Set temp = (Set)malloc(sizeof(struct node));
+        Set currB;
+        for(currB = B; currB != NULL && currA->data != currB->data; currB = currB->next) {}
 
-                if(temp != NULL) {
-                    temp->data = currA->data;
-                    temp->next = I;
-                    I = temp;
-                }
+        if(currB != NULL) {
+            Set temp = (Set)malloc(sizeof(struct node));
+
+            if(temp != NULL) {
+                temp->data = currA->data;
+                temp->next = I;
+                I = temp;
             }
         }
     }
@@ -133,15 +134,16 @@ Set Difference(Set A, Set B) {
     Set D = NULL;
 
     for(Set currA = A; currA != NULL; currA = currA->next) {
-        for(Set currB = B; currB != NULL; currB = currB->next) {
-            if(currA->data != currB->data) {
-                Set temp = (Set)malloc(sizeof(struct node));
+        Set currB;
+        for(currB = B; currB != NULL && currA->data != currB->data; currB = currB->next) {}
 
-                if(temp != NULL) {
-                    temp->data = currA->data;
-                    temp->next = D;
-                    D = temp;
-                }
+        if(currB == NULL) {
+            Set temp = (Set)malloc(sizeof(struct node));
+
+            if(temp != NULL) {
+                temp->data = currA->data;
+                temp->next = D;
+                D = temp;
             }
         }
     }
