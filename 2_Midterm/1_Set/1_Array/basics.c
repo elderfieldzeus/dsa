@@ -7,8 +7,7 @@ typedef struct {
     int size;
 } Set;
 
-void
-populateSet(Set *S);
+void populateSet(Set *S);
 void printSet(Set S);
 Set Union(Set A, Set B);
 Set Intersection(Set A, Set B);
