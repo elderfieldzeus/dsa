@@ -7,6 +7,8 @@ typedef struct {
     int size;
 } Set;
 
+void insertToSet(Set *S, int data);
+void deleteFromSet(Set *S, int data);
 void populateSet(Set *S);
 void printSet(Set S);
 Set Union(Set A, Set B);
@@ -44,26 +46,54 @@ int main() {
     printf("(B - A): ");
     printSet(D);
 
+    int temp;
+    printf("\nRemove an element from set A: ");
+    scanf(" %d", &temp);
+
+    deleteFromSet(&A, temp);
+    printf("A without '%d': ", temp);
+    printSet(A);
+
     return 0;
 }
 
+void insertToSet(Set *S, int data) {
+    if(S->size < MAX) {
+        int i;
+
+        for(i = 0; i < S->size && S->set[i] != data; i++) {}
+
+        if(i == S->size) {
+            S->set[S->size++] = data;
+        }
+    }
+}
+
+void deleteFromSet(Set *S, int data) {
+    if(S->size > 0) {
+        int i;
+
+        for(i = 0; i < S->size && S->set[i] != data; i++) {}
+
+        if(i < S->size) {
+            S->size--;
+
+            if(S->size > 0) {
+                S->set[i] = S->set[S->size];
+            }
+        }
+    }
+}
 
 void populateSet(Set *S) {
-    printf("Enter number (0 - %d)\n", MAX - 1);
+    printf("Enter number\n");
 
     for (; S->size < MAX / 2;){
         int data;
         printf("Element %d: ", S->size);
         scanf("%d", &data);
-        
-        if(data >= 0 && data < MAX) {
-            int j;
-            for (j = 0; j < S->size && S->set[j] != data; j++){}
 
-            if(j == S->size) {
-                S->set[S->size++] = data;
-            }
-        }
+        insertToSet(S, data);
     }
 
     printf("\n");
