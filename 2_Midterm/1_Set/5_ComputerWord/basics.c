@@ -3,7 +3,7 @@
 #define MAX (sizeof(unsigned int) * 8)
 
 // LEFT TO RIGHT IMPLEMENTATION FOR SET
-typedef unsigned int Set;
+typedef unsigned int Set; // 32 bits
 
 void init(Set *S);
 void displayBitPattern(Set S);
@@ -24,7 +24,7 @@ int main()
     insertElem(&S, 31);
 
     insertElem(&S, 24);
-    deleteElem(&S, 24);
+    // deleteElem(&S, 24);
 
     displayElem(S);
     displayBitPattern(S);
@@ -54,7 +54,7 @@ void insertElem(Set *S, int elem)
 {
     if (elem < MAX)
     {
-        *S |= 1 << (MAX - elem - 1); // -1 to include 0
+        *S |= (1 << elem);
     }
 }
 
@@ -62,7 +62,7 @@ void deleteElem(Set *S, int elem)
 {
     if (elem < MAX)
     {
-        *S &= ~(1 << (MAX - elem - 1));
+        *S &= ~(1 << elem);
     }
 }
 
@@ -72,7 +72,7 @@ void displayElem(Set S)
 
     for (int i = 0; i < MAX; i++)
     {
-        if ((S >> (MAX - i - 1) & 1) == 1)
+        if (((S >> i) & 1) == 1)
         {
             printf("%d ", i);
         }
