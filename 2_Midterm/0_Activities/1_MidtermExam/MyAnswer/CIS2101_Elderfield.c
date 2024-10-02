@@ -391,8 +391,8 @@ void convertToDCISMDict(dcismDict D, arrListStud SL)
      	
      	if(insertStudLL(&D[p].programStuds[y], SL.studs[i]) == 1) {
      		D[p].studCtr++;
-		}
-	 }
+	    }
+	}
 }
 
 
@@ -405,8 +405,8 @@ void displayDCISMDict(dcismDict D)
     int i, j;
     for(i = 0; i < NUMPROGRAMS; i++){
         for(j = 0; j < YEARLEVELS; j++){
-        	printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students", getProgram(i), j + 1);
-             displayStudLL(D[i].programStuds[j]);
+            printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students", getProgram(i), j + 1);
+            displayStudLL(D[i].programStuds[j]);
         }
     }
 }
@@ -427,7 +427,10 @@ studSet* initStudSet(void)
      	
      	for(i = 0; i < NUMPROGRAMS; i++) {
      		ret[i] = (studSet)malloc(sizeof(sNode));
-     		ret[i]->count = 0;
+     		
+            if(ret[i] != NULL) {
+                ret[i]->count = 0;
+            }
 		 }
 	 }
 	 
@@ -480,6 +483,8 @@ studSet* removeInactiveStudents(dcismDict D)
      				studLL t = *trav;
      				*trav = t->next;
      				free(t);
+
+                    D[i].studCtr--;
 				}
 				else {
 					trav = &(*trav)->next;
