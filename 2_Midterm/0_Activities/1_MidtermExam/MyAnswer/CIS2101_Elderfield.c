@@ -372,7 +372,6 @@ void initDCISMDict(dcismDict D)
         D[i].studCtr = 0;
         for(j = 0; j < YEARLEVELS; j++) {
             D[i].programStuds[j] = NULL;
-            D[i].studCtr = 0;
         }
     }
 }
