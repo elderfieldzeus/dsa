@@ -126,7 +126,8 @@ int main(void)
     *------------------------------------------------------------------------*/	
    printf("\n\n\nProblem #1:: ");
    printf("\n------------\n");
-    
+    arrListStud A = populateStudentList();
+    displayArrListStud(A);
    
     /*-------------------------------------------------------------------------
     * 	Problem #2  :: 1) Call initDCISMDict()                               *
@@ -136,6 +137,10 @@ int main(void)
     dcismDict D;    
    printf("\n\n\nProblem #2:: ");
    printf("\n------------\n");
+   
+   initDCISMDict(D);
+   convertToDCISMDict(D, A);
+   displayDCISMDict(D);
     
   
     /*-------------------------------------------------------------------------
@@ -146,7 +151,9 @@ int main(void)
 	 *-------------------------------------------------------------------------*/	  
     printf("\n\n\nProblem #3:: ");
     printf("\n------------\n");
-
+	studSet* S = removeInactiveStudents(D);
+	displayDCISMDict(D);
+	displayStudSets(S); 
     
     return 0;
 }                                  
@@ -252,12 +259,19 @@ void displayArrListStud(arrListStud A)
    printf("%-10s", "Program");      //Program and Year should be included in the display, though
    printf("%-10s", "Year");         //   it is not included in the sample display.
      
-   //Write your code here.   
-    
-    
-    
-    
-    
+   //Write your code here.  
+   char *temp ;
+    for(x = 0; x < A.numStuds; x++) {
+    	printf("\n%-10s", A.studs[x].idNum);
+	   printf("%-10s", A.studs[x].name.fName);
+	   printf("%-10s", A.studs[x].name.lName);
+	   
+	   temp = getProgram(A.studs[x].info);
+	   printf("%-10s", temp);      //Program and Year should be included in the display, though
+	   free(temp);
+	   
+	   printf("%-10d", yearLevelHash(A.studs[x].info) + 1); 
+	}
 }
 
 
@@ -282,6 +296,24 @@ int programHash(personalInfo I)
 int insertStudLL(studLL* SL, student S)
 {
      //Write your code
+     studLL *trav;
+     
+     
+     for(trav = SL; *trav != NULL && strcmp((*trav)->stud.idNum, S.idNum) < 0; trav = &(*trav)->next) {}
+	 
+	 if(*trav == NULL || strcmp((*trav)->stud.idNum, S.idNum) != 0) {
+	 	studLL temp = (studLL) malloc(sizeof(struct studNode));
+	 	if(temp != NULL) {
+	 		temp->stud = S;
+	 		temp->next = *trav;
+	 		*trav = temp;
+		 }
+		 else {
+		 	return 0;
+		 }
+	 }
+	 
+	 return (*trav == NULL || strcmp((*trav)->stud.idNum, S.idNum) != 0) ? 1 : 0;
 }
 
 
@@ -292,7 +324,7 @@ void displayStudLL(studLL SL)
 {
     if(SL != NULL){
       //  printf("\nYear %d\n\n",    );        //Complete the code and Uncomment
-        printf("%-10s", "Id Number");
+        printf("\n%-10s", "Id Number");
         printf("%-10s", "fName");
         printf("%-10s", "lName");
         printf("%-10s", "Program");
@@ -303,6 +335,29 @@ void displayStudLL(studLL SL)
         printf("%-10s\n", "Status");
         
         //Write your code here 
+        studLL curr;
+        
+        for(curr = SL; curr != NULL; curr = curr->next) {
+        	printf("%-10s", curr->stud.idNum);
+	        printf("%-10s", curr->stud.name.fName);
+	        printf("%-10s", curr->stud.name.lName);
+	        
+	        char *temp = getProgram(curr->stud.info);
+	        printf("%-10s", temp);
+	        free(temp);
+	        
+	        printf("%-10d", yearLevelHash(curr->stud.info) + 1);
+	        
+	        int g = (curr->stud.info & 16) >> 4;
+	        int e = (curr->stud.info & 32) >> 5;
+	        int n = (curr->stud.info & 64) >> 6;
+	        int s = (curr->stud.info & 128) >> 7;
+	        
+	        printf("%-10s", (g == 0) ? "Male" : "Female" );
+	        printf("%-15s", (e == 0) ? "Regular" : "Irregular");
+	        printf("%-15s", (n == 0) ? "Filipino" : "Foreigner");
+	        printf("%-10s\n", (s == 0) ? "Inactive" : "Active");
+		}
     }
 }
 
@@ -312,10 +367,12 @@ void displayStudLL(studLL SL)
 void initDCISMDict(dcismDict D)
 {
      //Write your code here
-    for(int i = 0; i < NUMPROGRAMS; i++) {
+     int i, j;
+    for(i = 0; i < NUMPROGRAMS; i++) {
         D[i].studCtr = 0;
-        for(int j = 0; j < YEARLEVELS; j++) {
+        for(j = 0; j < YEARLEVELS; j++) {
             D[i].programStuds[j] = NULL;
+            D[i].studCtr = 0;
         }
     }
 }
@@ -327,6 +384,16 @@ void initDCISMDict(dcismDict D)
 void convertToDCISMDict(dcismDict D, arrListStud SL)
 {
      //Write your code here
+     int i;
+     
+     for(i = 0; i < SL.numStuds; i++) {
+     	int p = programHash(SL.studs[i].info);
+     	int y = yearLevelHash(SL.studs[i].info);
+     	
+     	if(insertStudLL(&D[p].programStuds[y], SL.studs[i]) == 1) {
+     		D[p].studCtr++;
+		}
+	 }
 }
 
 
@@ -337,10 +404,10 @@ void convertToDCISMDict(dcismDict D, arrListStud SL)
 void displayDCISMDict(dcismDict D)
 {
     int i, j;
-    for(; ;){
-      //   printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students\n",);  //Complete code and uncomment
-        for( ; ; ){
-             
+    for(i = 0; i < NUMPROGRAMS; i++){
+        for(j = 0; j < YEARLEVELS; j++){
+        	printf("\n---------------------------------------------------------------------------------------------------------------\n%s %d Students", getProgram(i), j + 1);
+             displayStudLL(D[i].programStuds[j]);
         }
     }
 }
@@ -354,6 +421,18 @@ void displayDCISMDict(dcismDict D)
 studSet* initStudSet(void)
 {
      //Write your code here
+     studSet *ret = (studSet*)malloc(sizeof(studSet) * NUMPROGRAMS);
+     
+     if(ret != NULL) {
+     	int i;
+     	
+     	for(i = 0; i < NUMPROGRAMS; i++) {
+     		ret[i] = (studSet)malloc(sizeof(sNode));
+     		ret[i]->count = 0;
+		 }
+	 }
+	 
+	 return ret;
 }
 
 
@@ -363,6 +442,15 @@ studSet* initStudSet(void)
 void insertStudSet(studSet S, studRec sRecord)
 {
     //Write your code here
+    if(S->count < MAXSTUDS) {
+    	int i;
+    	
+    	for(i = 0; i < S->count && strcmp(S->studs[i].studID, sRecord.studID) != 0; i++) {}
+    	
+    	if(i == S->count) {
+    		S->studs[S->count++] = sRecord;
+		}
+	}
 }
 
 
@@ -374,6 +462,34 @@ void insertStudSet(studSet S, studRec sRecord)
 studSet* removeInactiveStudents(dcismDict D)
 {
      //Write your code here
+     studSet *S = initStudSet();
+     
+     int i, j;
+     for(i = 0; i < NUMPROGRAMS; i++) {
+     	for(j = 0; j < YEARLEVELS; j++) {
+     		studLL *trav = &D[i].programStuds[j];
+     		
+     		while(*trav != NULL) {
+     			int status = ((*trav)->stud.info & 128) >> 7;
+     			if(status == 0) {
+     				studRec temp;
+     				temp.sName = (*trav)->stud.name;
+     				strcpy(temp.studID, (*trav)->stud.idNum);
+     				
+     				insertStudSet(S[i], temp);
+     				
+     				studLL t = *trav;
+     				*trav = t->next;
+     				free(t);
+				}
+				else {
+					trav = &(*trav)->next;
+				}
+			 }
+		}
+	 }
+	 
+	 return S;
 }
 
  
@@ -384,6 +500,16 @@ studSet* removeInactiveStudents(dcismDict D)
 void displayStudSets(studSet* S)
 {
      //Write your code 
+     int i, j;
+     
+     for(i = 0; i < NUMPROGRAMS; i++) {
+     	printf("\n\n%s\n", getProgram(i));
+     	for(j = 0; j < S[i]->count; j++) {
+     		printf("%10s", S[i]->studs[j].studID);
+     		printf("%10s", S[i]->studs[j].sName.fName);
+     		printf("%10s\n", S[i]->studs[j].sName.lName);
+		 }
+	 }
 }
 
 
