@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define MAX 10
 
 typedef struct {
     int data;
@@ -16,7 +15,6 @@ typedef struct node {
 void init(LinkedList *Stack);
 void read(LinkedList Stack);
 bool isEmpty(LinkedList Stack);
-bool isFull(LinkedList Stack);
 Element top(LinkedList Stack);
 void pop(LinkedList *Stack);
 void push(LinkedList *Stack, int data);
@@ -25,8 +23,6 @@ void freeAll(LinkedList Stack);
 
 int main() {
     LinkedList Stack;
-
-    printf("\033[H\033[J");
 
     printf("\033[H\033[J"); // clear screen
     
@@ -69,14 +65,6 @@ bool isEmpty(LinkedList Stack) {
     return (Stack == NULL) ? true : false;
 }
 
-bool isFull(LinkedList Stack) {
-    //assuming MAX is the capacity of the stack
-    int i = 0;
-    for(LinkedList curr = Stack; curr != NULL; curr = curr->next, i++) {}
-
-    return i == MAX ? true : false;
-}
-
 Element top(LinkedList Stack) {
     Element d = {-1};
 
@@ -92,13 +80,11 @@ void pop(LinkedList *Stack) {
 }
 
 void push(LinkedList *Stack, int data) {
-    if(!isFull(*Stack)) {
-        LinkedList temp = (LinkedList)malloc(sizeof(struct node));
-        if(temp != NULL) {
-            temp->elem.data = data;
-            temp->next = *Stack;
-            (*Stack) = temp;
-        }
+    LinkedList temp = (LinkedList)malloc(sizeof(struct node));
+    if(temp != NULL) {
+        temp->elem.data = data;
+        temp->next = *Stack;
+        (*Stack) = temp;
     }
 }
 
