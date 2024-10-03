@@ -59,10 +59,10 @@ void read(Stack S) {
     }
 
     while(!isEmpty(S)) {
+        printf("%d ", top(S));
+
         Stack t = S;
         S = S->next;
-
-        printf("%d ", t->data);
 
         t->next = temp;
         temp = t;
@@ -84,7 +84,7 @@ bool isEmpty(Stack S) {
 }
 
 int top(Stack S) {
-    return (isEmpty(S)) ? S->data : -1;
+    return (!isEmpty(S)) ? S->data : -1;
 }
 
 void pop(Stack *S) {

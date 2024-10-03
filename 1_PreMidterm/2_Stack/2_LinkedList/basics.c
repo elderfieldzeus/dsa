@@ -13,7 +13,7 @@ typedef struct node {
 
 // Top, Pop, Push, and other utility functions such as initStack, isEmpty, and isFull
 void init(LinkedList *Stack);
-void read(LinkedList Stack);
+void read(LinkedList *Stack);
 bool isEmpty(LinkedList Stack);
 Element top(LinkedList Stack);
 void pop(LinkedList *Stack);
@@ -27,20 +27,20 @@ int main() {
     printf("\033[H\033[J"); // clear screen
     
     init(&Stack);
-    read(Stack);
+    read(&Stack);
 
     push(&Stack, 1);
-    read(Stack);
+    read(&Stack);
 
     push(&Stack, 2);
     push(&Stack, 3);
-    read(Stack);
+    read(&Stack);
 
     Element temp = top(Stack);
     printf("Top: %d\n", temp.data);
 
     pop(&Stack);
-    read(Stack);
+    read(&Stack);
 
     freeAll(Stack);
 
@@ -51,14 +51,28 @@ void init(LinkedList *Stack) {
     *Stack = NULL;
 }
 
-void read(LinkedList Stack) {
+void read(LinkedList *Stack) {
+    LinkedList temp;
     printf("Stack: ");
-    for(LinkedList curr = Stack; curr != NULL; curr = curr->next) {
-        printf("%d%s", curr->elem.data, (curr->next != NULL) ? ", " : ".\n");
+
+    if(isEmpty(*Stack)) {
+        printf("EMPTY");
     }
-    if(Stack == NULL) {
-        printf("EMPTY\n");
+    
+    while(!isEmpty(*Stack)) {
+        Element d = top(*Stack);
+        pop(Stack);
+        printf("%d ", d.data);
+        push(&temp, d.data);
     }
+
+    while(!isEmpty(temp)) {
+        Element d = top(temp);
+        pop(&temp);
+        push(Stack, d.data);
+    }
+
+    printf("\n");
 }
 
 bool isEmpty(LinkedList Stack) {
