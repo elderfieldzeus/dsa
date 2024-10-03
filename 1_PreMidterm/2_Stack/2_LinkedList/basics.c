@@ -53,6 +53,7 @@ void init(LinkedList *Stack) {
 
 void read(LinkedList *Stack) {
     LinkedList temp;
+    init(&temp);
     printf("Stack: ");
 
     if(isEmpty(*Stack)) {

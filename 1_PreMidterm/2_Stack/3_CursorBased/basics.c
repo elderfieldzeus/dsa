@@ -68,12 +68,18 @@ void init(Stack *S) {
 
 void read(Stack S, VHeap V) {
     printf("Stack: ");
-    for(int i = S; i != -1; i = V.VHNode[i].next) {
-        printf("%d%s", V.VHNode[i].elem.data, (V.VHNode[i].next != -1) ? ", " : ".\n");
+
+    if(isEmpty(S)) {
+        printf("EMPTY");
     }
-    if(S == -1) {
-        printf("EMPTY\n");
+    
+    while(!isEmpty(S)) {
+        Element d = top(S, V);
+        pop(&S, &V);
+        printf("%d ", d.data);
     }
+
+    printf("\n");
 }
 
 bool isEmpty(Stack S) {
