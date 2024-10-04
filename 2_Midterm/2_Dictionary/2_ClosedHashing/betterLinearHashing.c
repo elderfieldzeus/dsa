@@ -74,7 +74,7 @@ void insert(Dictionary D, int data) {
         }
     }
 
-    if(D[i] != data && D[i] == EMPTY) {
+    if(D[i] == EMPTY || (D[i] != data && firstAvail != -1)) { // insert if it stops in EMPTY OR (it stops at stopper AND there is a first available DELETED index)
         D[(firstAvail == -1) ? i : firstAvail] = data;
     }
 }

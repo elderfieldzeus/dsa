@@ -74,10 +74,10 @@ void insert(Dictionary D, int data) {
         }
     }
 
-    if(isFull) {
+    if(isFull && avail == -1) { // if it looped back to start AND there is no available space, then it is full
         printf("Dictionary is FULL!\n");
     }
-    else if(D[index] != data) {
+    else if(D[index] == EMPTY || avail != -1) { // if it stopped in index EMPTY OR it looped back BUT there is an available slot, you insert
         D[(avail == -1) ? index : avail] = data;
     }
 }
