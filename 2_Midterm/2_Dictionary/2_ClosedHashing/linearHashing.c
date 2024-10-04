@@ -88,7 +88,7 @@ bool inDict(Dictionary D, int data) {
     bool isFull = false;
 
     while(!isFull && D[index] != data && D[index] != EMPTY) {
-        index++;
+        index = (index + 1) % MAX;
 
         if(index == start) {
             isFull = true;
@@ -104,7 +104,7 @@ void delete(Dictionary D, int data) {
     bool isFull = false;
 
     while(!isFull && D[index] != data && D[index] != EMPTY) {
-        index++;
+        index = (index + 1) % MAX;
 
         if(index == start) {
             isFull = true;
