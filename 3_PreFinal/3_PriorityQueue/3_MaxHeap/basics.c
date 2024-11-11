@@ -67,7 +67,7 @@ int deleteMax(MaxHeap *T) {
         int RC = LC + 1;
 
         // 'child' variable stores the index of the child with the higher priority (in this case it is the bigger element)
-        int child = T->elements[LC] < T->elements[RC] ? LC : RC;
+        int child = T->elements[LC] > T->elements[RC] ? LC : RC;
 
         // while 'child' is still in range of elements and data is lesser than child, shift elements
         while(child <= T->lastIndex && T->elements[child] > data) {
