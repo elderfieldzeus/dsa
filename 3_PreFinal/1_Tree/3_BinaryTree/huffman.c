@@ -20,7 +20,7 @@ typedef struct tree {
     struct tree *next;
 } *Forest;
 
-void getInput(Element elements[], int *total) {
+void getInput(Element elements[], float *total) {
     *total = 0;
 
     for(int i = 0; i < MAX; i++) {
@@ -35,9 +35,9 @@ void getInput(Element elements[], int *total) {
     }
 }
 
-void adjustWeight(Element elements[], int total) {
+void adjustWeight(Element elements[], float total) {
     for(int i = 0; i < MAX; i++) {
-        elements[i].weight /= (float)total; // transforms number into decimal form out of 1.00
+        elements[i].weight /= total; // transforms number into decimal form out of 1.00
     }
 }
 
@@ -177,7 +177,7 @@ int main() {
     Tree T;
 
     Element elements[MAX];
-    int total = 0;
+    float total = 0;
 
     initTree(&T);
 
