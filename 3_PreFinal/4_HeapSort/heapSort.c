@@ -1,7 +1,7 @@
 /*
     TAKE NOTE: 
     In order to sort in ascending order, MaxHeap should be used.
-    While descending order required a MinHeap
+    While descending order requires a MinHeap
 */
 
 #include <stdio.h>
