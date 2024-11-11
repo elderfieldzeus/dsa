@@ -75,8 +75,6 @@ void deleteForest(Forest *F) {
 }
 
 void populateTree(Tree *T, Element elements[]) {
-    int smallestIndex = 0;
-
     Forest F = NULL;
 
     // Populate Forest LinkedList (Similar to Queue implementation)
