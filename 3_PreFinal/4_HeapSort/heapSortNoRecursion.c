@@ -40,7 +40,6 @@ void maxHeapify(int arr[], int size, int parent) {
     }
 
     arr[parent] = temp;
-    display(arr, size);
 }
 
 void heapSort(int arr[], int size) {
