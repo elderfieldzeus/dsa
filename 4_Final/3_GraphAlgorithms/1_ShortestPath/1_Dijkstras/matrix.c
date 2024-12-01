@@ -52,6 +52,8 @@ int* dijkstras(AdjMatrix M, int root) {
             weightFromRoot[i] = M[root][i];
         }
 
+        weightFromRoot[root] = 0;
+
         // algorithm
         for(int i = 1; i < MAX; i++) {
             int smallestIndex = 0;
