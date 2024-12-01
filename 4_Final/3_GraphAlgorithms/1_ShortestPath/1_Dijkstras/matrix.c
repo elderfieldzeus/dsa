@@ -21,7 +21,7 @@ int main() {
         {2, 4, 3},  // Edge from 2 to 4 with weight 3
         {4, 3, 2}   // Edge from 4 to 3 with weight 2
     };
-    
+
     int numOfEdges = sizeof(edges) / sizeof(edges[0]);
     
     AdjMatrix M;
@@ -63,18 +63,14 @@ int* dijkstras(AdjMatrix M, int root) {
                 }
             }
 
-            if(visited[smallestIndex] != 1) {
-                visited[smallestIndex] = 1;
+            // add smallestIndex to visited
+            visited[smallestIndex] = 1;
 
-                for(int k = 0; k < MAX; k++) {
-                    if(visited[k] == 0) {
-                        int nextWeight = weightFromRoot[smallestIndex] + M[smallestIndex][k]; // adds the new path from smallestIndex to next index
-                        weightFromRoot[k] = (weightFromRoot[k] < nextWeight) ? weightFromRoot[k] : nextWeight; // new weight gets the lesser of the two
-                    }
+            for(int k = 0; k < MAX; k++) {
+                if(visited[k] == 0) {
+                    int nextWeight = weightFromRoot[smallestIndex] + M[smallestIndex][k]; // adds the new path from smallestIndex to next index
+                    weightFromRoot[k] = (weightFromRoot[k] < nextWeight) ? weightFromRoot[k] : nextWeight; // new weight gets the lesser of the two
                 }
-            }
-            else {
-                printf("ERROR: No more paths connected to root");
             }
         }
     }
