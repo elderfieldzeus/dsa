@@ -31,13 +31,13 @@ void displayEdges(AdjMatrix M);
 
 int main() {
     int edges[][3] = {
-    {0, 1, 2},  // Edge from 0 to 1 with weight 2
-    {0, 2, 4},  // Edge from 0 to 2 with weight 4
-    {1, 2, 1},  // Edge from 1 to 2 with weight 1
-    {1, 3, 7},  // Edge from 1 to 3 with weight 7
-    {2, 4, 3},  // Edge from 2 to 4 with weight 3
-    {4, 3, 2}   // Edge from 4 to 3 with weight 2
-};
+        {0, 1, 2},  // Edge from 0 to 1 with weight 2
+        {0, 2, 4},  // Edge from 0 to 2 with weight 4
+        {1, 2, 1},  // Edge from 1 to 2 with weight 1
+        {1, 3, 7},  // Edge from 1 to 3 with weight 7
+        {2, 4, 3},  // Edge from 2 to 4 with weight 3
+        {4, 3, 2}   // Edge from 4 to 3 with weight 2
+    };
 
     int numOfEdges = sizeof(edges) / sizeof(edges[0]);
     
