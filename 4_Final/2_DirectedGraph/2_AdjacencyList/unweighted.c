@@ -43,14 +43,6 @@ void insertEdge(AdjList L, int edge[2]) {
         temp->next = L[edge[0]];
         L[edge[0]] = temp;
     }
-
-    temp = (Vertex) malloc(sizeof(struct node));
-
-    if(temp != NULL) {
-        temp->label = edge[0];
-        temp->next = L[edge[1]];
-        L[edge[1]] = temp;
-    }
 }
 
 void displayAdjList(AdjList L) {
@@ -74,11 +66,8 @@ void displayAdjList(AdjList L) {
 void displayEdges(AdjList L) {
     printf("Edges: ");
     for(int i = 0; i < MAX; i++) {
-
         for(Vertex trav = L[i]; trav != NULL; trav = trav->next) {
-            if(trav->label > i) {
-                printf("(%d, %d) ", i, trav->label);
-            }
+            printf("(%d, %d) ", i, trav->label);
         }
     }
 }
