@@ -1,7 +1,7 @@
 # Visualization
 
 #### For ```matrix.c```:
-![alt text](image.png)
+![alt text](./etc/image.png)
 
 #### Output: 
-![alt text](image-1.png)
+![alt text](./etc/image-1.png)
