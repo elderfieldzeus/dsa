@@ -63,8 +63,8 @@ MinimumCostTree prims(AdjMatrix M, int start) {
     visited[start] = 1;
     int NUMBER_OF_NODES = MAX - 1;
 
-    while(MST.nodeCount < NUMBER_OF_NODES) {
-        EdgeType minEdge = {-1, -1, INF}; // initialized to INF
+    while(MST.nodeCount < NUMBER_OF_NODES && MST.totalWeight < INF) { // MST.totalWeight < INF is optional, only using it to check if graph is connected
+        EdgeType minEdge = {.weight = INF}; // initialized to INF
         
         for(int i = 0; i < MAX; i++) {
             // if part of the tree, then find for shortest edge to a vertex that is not part of the tree
@@ -78,12 +78,14 @@ MinimumCostTree prims(AdjMatrix M, int start) {
             }
         }
 
-        MST.nodes[MST.nodeCount++] = minEdge;
-        visited[minEdge.v] = 1;
         MST.totalWeight += minEdge.weight;
 
-        if(minEdge.weight == INF) {
-            printf("GRAPH NOT CONNECTED.");
+        if(minEdge.weight != INF) {
+            MST.nodes[MST.nodeCount++] = minEdge;
+            visited[minEdge.v] = 1;
+        }
+        else {
+            printf("GRAPH NOT CONNECTED.\n\n");
         }
     }
 
