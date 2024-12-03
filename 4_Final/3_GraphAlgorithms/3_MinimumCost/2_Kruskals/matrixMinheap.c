@@ -74,7 +74,7 @@ void insertEdge(LabelAdjMat M, EdgeType edge) {
 void minHeapify(MinHeapList *L, int parent) {
     int smallest = parent;
     int left = parent * 2 + 1;
-    int right = left + 2;
+    int right = left + 1;
 
     if(left <= L->lastNdx && L->edges[left].weight < L->edges[smallest].weight) {
         smallest = left;
@@ -117,7 +117,6 @@ EdgeType deleteMin(MinHeapList *L) {
         L->edges[0] = L->edges[L->lastNdx--];
         
         minHeapify(L, 0);
-        
     }
 
     return ret;
@@ -156,14 +155,13 @@ MST Kruskals(LabelAdjMat M) {
 
     while(PQ.lastNdx >= 0) {
         EdgeType min = deleteMin(&PQ);
-        printf("%d ", min.weight);
 
         if(Comp[min.u] != Comp[min.v]) {
-            int changeTo = min.u;
+            int change = Comp[min.u];
 
             for(int i = 0; i < MAX; i++) {
-                if (Comp[i] == min.v) {
-                    Comp[i] = changeTo;
+                if (Comp[i] == change) {
+                    Comp[i] = Comp[min.v];
                 }
             }
 
