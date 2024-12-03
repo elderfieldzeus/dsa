@@ -2,5 +2,6 @@
 !/**/
 !*.*
 .vscode
+tempCodeRunnerFile.c
 *.out
 *.exe
