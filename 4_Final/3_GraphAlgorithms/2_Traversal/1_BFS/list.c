@@ -24,7 +24,7 @@ bool isEmpty(Queue Q);
 void enqueue(Queue *Q, int data);
 int dequeue(Queue *Q);
 
-void initMatrix(AdjList M);
+void initList(AdjList M);
 void insertEdge(AdjList M, int edge[2]);
 void displayList(AdjList M);
 void displayEdges(AdjList M);
@@ -34,7 +34,7 @@ int main() {
     int numOfEdges = sizeof(edges) / sizeof(edges[0]);
     
     AdjList M;
-    initMatrix(M);
+    initList(M);
 
     for(int i = 0; i < numOfEdges; i++) {
         insertEdge(M, edges[i]);
@@ -96,7 +96,7 @@ int dequeue(Queue *Q) {
     return ret;
 }
 
-void initMatrix(AdjList M) {
+void initList(AdjList M) {
     for(int i = 0; i < MAX; i++) {
         M[i] = NULL;
     }
