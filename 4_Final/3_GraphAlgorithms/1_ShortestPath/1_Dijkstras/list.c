@@ -87,7 +87,6 @@ int* dijkstras(AdjList M, int root) {
                     if(trav != NULL) {
                         if(trav->weight + min < weightFromRoot[j]) {
                             weightFromRoot[j] = trav->weight + min;
-                            printf("%d %d %d\n", minNode, j, weightFromRoot[j]);
                         }
                     }
                 }
@@ -106,7 +105,7 @@ void displayDjk(int arr[], int root) {
     for(int i = 0; i < MAX; i++) {
         
         printf("Path from %d to %d: ", root, i);
-        (arr[i] == INF) ? printf("NONE\n") : printf("%d\n", arr[i]);
+        (arr[i] == 0) ? printf("NONE\n") : printf("%d\n", arr[i]);
     }
 }
 
