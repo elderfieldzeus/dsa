@@ -144,16 +144,3 @@ void displayList(AdjList M) {
         printf("\n");
     }
 }
-
-void displayEdges(AdjList M) {
-    printf("Edges: ");
-    for(int i = 0; i < MAX; i++) {
-        for(Vertex curr = M[i]; curr != NULL; curr = curr->next) {
-            if(curr->label > i) {
-                printf("(%d, %d) ", i, curr->label);
-            }
-        }
-    }
-
-    printf("\n");
-}
