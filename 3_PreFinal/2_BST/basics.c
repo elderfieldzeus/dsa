@@ -11,6 +11,7 @@ typedef struct node {
 void initTree(Tree *T);
 void populateTree(Tree *T, int arr[], int size);
 void insertTree(Tree *T, int data);
+void insertRecursion(Tree *T, int data);
 bool isFound(Tree T, int x);
 bool isFoundRecursion(Tree T, int x);
 void deleteElem(Tree *T, int x);
@@ -48,7 +49,10 @@ void initTree(Tree *T) {
 
 void populateTree(Tree *T, int arr[], int size) {
 	for (int i = 0; i < size; i++) {
-		insertTree(T, arr[i]);
+        insertRecursion(T, arr[i]);
+
+        // uncomment if you wanna try non-recursion
+        // insertTree(T, arr[i]);
 	}
 }
 
@@ -68,6 +72,24 @@ void insertTree(Tree *T, int data) {
             *trav = temp; // connect if element not found
         }
 	}
+}
+
+void insertRecursion(Tree *T, int data) {
+    if(*T == NULL) {
+        Tree temp = (Tree)malloc(sizeof(struct node));
+        if(temp != NULL) {
+            temp->data = data;
+            temp->left = NULL;
+            temp->right = NULL;
+            *T = temp;
+        }
+    }
+    else if(data < (*T)->data) {
+        insertRecursion(&(*T)->left, data);
+    }
+    else if(data > (*T)->data) {
+        insertRecursion(&(*T)->right, data);
+    }
 }
 
 bool isFound(Tree T, int x) {
@@ -112,7 +134,7 @@ void deleteElem(Tree *T, int x) {
 
     if(*trav != NULL) {
         // if right is NULL then it can either have NO children or a left child
-        if((*trav)->right != NULL) {
+        if((*trav)->right == NULL) {
             temp = *trav;
             *trav = temp->left; // temp->left is either NULL or a node
         }
