@@ -13,7 +13,6 @@ void populateTree(Tree *T, int arr[], int size);
 void insertTree(Tree *T, int data);
 bool isFound(Tree T, int x);
 bool isFoundRecursion(Tree T, int x);
-void deleteWithOneChild(Tree *T);
 void deleteElem(Tree *T, int x);
 void preOrder(Tree T);
 
@@ -91,14 +90,16 @@ bool isFoundRecursion(Tree T, int x) {
     return (T->data < x) ? isFoundRecursion(T->right, x) : isFoundRecursion(T->left, x);
 }  
 
-void deleteWithOneChild(Tree *T) {
-    Tree temp = *T;
-    *T = (*T)->left != NULL ? (*T)->left : (*T)->right;
-    free(temp);
-}
+
+// void deleteWithOneChild(Tree *T) {
+//     Tree temp = *T;
+//     *T = (*T)->left != NULL ? (*T)->left : (*T)->right;
+//     free(temp);
+// }
 
 void deleteElem(Tree *T, int x) {
     Tree* trav = T;
+    Tree temp;
 
     while(*trav != NULL && (*trav)->data != x) {
         if((*trav)->data < x) {
@@ -109,30 +110,50 @@ void deleteElem(Tree *T, int x) {
         }
     }
 
-    
-
     if(*trav != NULL) {
-        // check if element has two children
-        if((*trav)->left != NULL && (*trav)->right != NULL) {
-            // get another element nearest to the element to be deleted, so it can take its place
-            Tree* nearest = &(*trav)->left;
+        // if right is NULL then it can either have NO children or a left child
+        if((*trav)->right != NULL) {
+            temp = *trav;
+            *trav = temp->left; // temp->left is either NULL or a node
+        }
+        else {
+            Tree *successor = &(*trav)->right; // since right is not NULL, we start from there
 
-            while((*nearest)->right != NULL) {
-                nearest = &(*nearest)->right;
+            while((*successor)->left != NULL) { // while it is not the left-most node, keep traversing
+                successor = &(*successor)->left;
             }
 
-            // closest element replaces the element to be deleted
-            (*trav)->data = (*nearest)->data;
+            (*trav)->data = (*successor)->data; // trav gets the data of successor
+            temp = (*successor);
+            *successor = temp->right; // gets the right node, which can either be NULL or a node
+        }
 
-            // the closest element will be deleted using the one child deletion method
-            // this is because we are sure that it no longer has a right child
-            deleteWithOneChild(nearest);
-        }
-        // if element has at most one children, we can utilize the deleteWithOneChild() function
-        else {
-            deleteWithOneChild(trav);
-        }
+        free(temp);
     }
+    
+    /* sorry. this was the OLD ME, NEW ME is better */ 
+    // if(*trav != NULL) {
+    //     // check if element has two children
+    //     if((*trav)->left != NULL && (*trav)->right != NULL) {
+    //         // get another element nearest to the element to be deleted, so it can take its place
+    //         Tree* nearest = &(*trav)->left;
+
+    //         while((*nearest)->right != NULL) {
+    //             nearest = &(*nearest)->right;
+    //         }
+
+    //         // closest element replaces the element to be deleted
+    //         (*trav)->data = (*nearest)->data;
+
+    //         // the closest element will be deleted using the one child deletion method
+    //         // this is because we are sure that it no longer has a right child
+    //         deleteWithOneChild(nearest);
+    //     }
+    //     // if element has at most one children, we can utilize the deleteWithOneChild() function
+    //     else {
+    //         deleteWithOneChild(trav);
+    //     }
+    // }
 }
 
 // prints in a style similar to POT with _ as empty nodes
