@@ -23,6 +23,8 @@ typedef struct {
     int cost;
 } MST; 
 
+MST Kruskals(LabelAdjMat M);
+
 void initMatrix(LabelAdjMat M);
 void insertEdge(LabelAdjMat M, EdgeType edge);
 void minHeapify(MinHeapList *L, int parent);
@@ -30,7 +32,7 @@ void insertMinHeap(MinHeapList *L, EdgeType edge);
 EdgeType deleteMin(MinHeapList *L);
 MinHeapList createMinHeap(LabelAdjMat M);
 void displayMinHeap(MinHeapList PQ);
-MST Kruskals(LabelAdjMat M);
+
 void displayEdges(MST K);
 
 
@@ -56,6 +58,36 @@ int main() {
     displayEdges(K);
 
     return 0;
+}
+
+MST Kruskals(LabelAdjMat M) {
+    MST K = {{.lastNdx = -1}, 0};
+    MinHeapList PQ = createMinHeap(M);
+
+    int Comp[MAX];
+
+    for(int i = 0; i < MAX; i++) {
+        Comp[i] = i;
+    }
+
+    while(PQ.lastNdx >= 0) {
+        EdgeType min = deleteMin(&PQ);
+
+        if(Comp[min.u] != Comp[min.v]) {
+            int change = Comp[min.u];
+
+            for(int i = 0; i < MAX; i++) {
+                if (Comp[i] == change) {
+                    Comp[i] = Comp[min.v];
+                }
+            }
+
+            insertMinHeap(&K.eList, min);
+            K.cost += min.weight;
+        }
+    }
+
+    return K;
 }
 
 void initMatrix(LabelAdjMat M) {
@@ -141,36 +173,6 @@ void displayMinHeap(MinHeapList PQ) {
         printf("%d ", PQ.edges[i].weight);
     }
     printf("\n");
-}
-
-MST Kruskals(LabelAdjMat M) {
-    MST K = {{.lastNdx = -1}, 0};
-    MinHeapList PQ = createMinHeap(M);
-
-    int Comp[MAX];
-
-    for(int i = 0; i < MAX; i++) {
-        Comp[i] = i;
-    }
-
-    while(PQ.lastNdx >= 0) {
-        EdgeType min = deleteMin(&PQ);
-
-        if(Comp[min.u] != Comp[min.v]) {
-            int change = Comp[min.u];
-
-            for(int i = 0; i < MAX; i++) {
-                if (Comp[i] == change) {
-                    Comp[i] = Comp[min.v];
-                }
-            }
-
-            insertMinHeap(&K.eList, min);
-            K.cost += min.weight;
-        }
-    }
-
-    return K;
 }
 
 void displayEdges(MST K) {
