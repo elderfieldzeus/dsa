@@ -9,8 +9,8 @@ typedef struct {
 } EdgeType;
 
 typedef struct {
-    EdgeType nodes[MAX - 1];
-    int nodeCount;
+    EdgeType edges[MAX - 1];
+    int edgeCount;
     int totalWeight;
 } MinimumCostTree;
 
@@ -51,19 +51,19 @@ int main() {
     printf("Minimum weight is: %d\n", MCT.totalWeight);
 
     printf("MCT Edges: ");
-    displayEdgeList(MCT.nodes, MCT.nodeCount);
+    displayEdgeList(MCT.edges, MCT.edgeCount);
 
     return 0;
 }
 
 MinimumCostTree prims(AdjMatrix M, int start) {
-    MinimumCostTree MST = {.nodeCount = 0, .totalWeight = 0};
+    MinimumCostTree MST = {.edgeCount = 0, .totalWeight = 0};
 
     Set visited = {};
     visited[start] = 1;
-    int NUMBER_OF_NODES = MAX - 1;
+    int NUMBER_OF_EDGES = MAX - 1;
 
-    while(MST.nodeCount < NUMBER_OF_NODES && MST.totalWeight < INF) { // MST.totalWeight < INF is optional, only using it to check if graph is connected
+    while(MST.edgeCount < NUMBER_OF_EDGES && MST.totalWeight < INF) { // MST.totalWeight < INF is optional, only using it to check if graph is connected
         EdgeType minEdge = {.weight = INF}; // initialized to INF
         
         for(int i = 0; i < MAX; i++) {
@@ -81,7 +81,7 @@ MinimumCostTree prims(AdjMatrix M, int start) {
         MST.totalWeight += minEdge.weight;
 
         if(minEdge.weight != INF) {
-            MST.nodes[MST.nodeCount++] = minEdge;
+            MST.edges[MST.edgeCount++] = minEdge;
             visited[minEdge.v] = 1;
         }
         else {
