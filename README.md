@@ -1,6 +1,6 @@
 # dsa
 <div align="center">
-   <h3>repository for my dsa code wahah !!</h3>
+   <h3>my dsa repo</h3>
    <p>feel free to steal or whatever haha</p>
    <img src="./etc/lol-spongebob.gif" width="500">
 </div>
