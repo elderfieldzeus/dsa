@@ -58,7 +58,6 @@ void insertTree(Node *N, int label) {
     }
 }
 
-// From root, print until node is found
 void dfs(Tree T, int root) {
     printf("%d ", root);
     if(T[root] != NULL) {
