@@ -1,4 +1,3 @@
-# dsa
 <div align="center">
    <h3>my dsa repo</h3>
    <p>feel free to steal or whatever haha</p>
